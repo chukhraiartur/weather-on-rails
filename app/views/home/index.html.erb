@@ -1,0 +1,9 @@
+<div class="w-full h-screen flex items-center justify-center">
+  <div class="text-center mx-auto">
+    <p><%= Date.today.strftime("%A, %B %d") %></p>
+    <img class="mx-auto" src="https://openweathermap.org/img/wn/<%= @data["weather"].first["icon"] %>@2x.png" alt="">
+    <p><%= @data["weather"].first["main"] %></p>
+    <p class="text-xs"><%= @data["weather"].first["description"] %></p>
+    <p><%= @data["main"]["temp"].round %>°</p>
+  </div>
+</div>
