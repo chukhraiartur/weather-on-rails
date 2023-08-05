@@ -1,9 +1,36 @@
-<div class="w-full h-screen flex items-center justify-center">
-  <div class="text-center mx-auto">
-    <p><%= Date.today.strftime("%A, %B %d") %></p>
-    <img class="mx-auto" src="https://openweathermap.org/img/wn/<%= @data["weather"].first["icon"] %>@2x.png" alt="">
-    <p><%= @data["weather"].first["main"] %></p>
-    <p class="text-xs"><%= @data["weather"].first["description"] %></p>
-    <p><%= @data["main"]["temp"].round %>°</p>
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <%= form_with url: root_path, method: :get, class: 'mb-4' do |form| %>
+        <div class="input-group">
+          <%= form.text_field :city, class: 'form-control', placeholder: "Enter a city name" %>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1">
+      <%= link_to 'Clear', clear_results_path, class: 'btn btn-danger' %>
+    </div>
   </div>
+
+  <% if @cities.any? %>
+    <div class="row justify-content-center">
+      <% @cities.each do |city| %>
+        <div class="col-sm-2">
+          <div class="card border-primary mb-3" style="max-width: 18rem;">
+            <img class="card-img-top" src="https://openweathermap.org/img/wn/<%= city.data["weather"].first["icon"] %>@2x.png" alt="">
+            <div class="card-body">
+              <h4 class="card-title"><%= city.name %></h4>
+              <p class="card-text"><%= city.date %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><%= city.data["main"]["temp"].round %>°</li>
+              <li class="list-group-item"><%= city.data["weather"].first["main"] %></li>
+              <li class="list-group-item"><%= city.data["weather"].first["description"] %></li>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
